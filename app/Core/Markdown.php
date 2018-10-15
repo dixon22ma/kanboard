@@ -145,4 +145,19 @@ class Markdown extends Parsedown
             array('task_id' => $task_id)
         );
     }
+
+    /**
+     * Exclude from nesting task links and user mentions for links
+     *
+     * @param array $Excerpt
+     * @return array|null
+     */
+    protected function inlineLink($Excerpt)
+    {
+        $Inline = parent::inlineLink($Excerpt);
+        if (is_array($Inline)) {
+            array_push($Inline['element']['nonNestables'], 'TaskLink', 'UserLink');
+        }
+        return $Inline;
+    }
 }

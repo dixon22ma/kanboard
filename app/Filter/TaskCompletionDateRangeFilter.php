@@ -3,17 +3,15 @@
 namespace Kanboard\Filter;
 
 use Kanboard\Core\Filter\FilterInterface;
-use Kanboard\Model\ProjectModel;
-use Kanboard\Model\SwimlaneModel;
 use Kanboard\Model\TaskModel;
 
 /**
- * Filter tasks by swimlane
+ * Filter tasks by completion date
  *
  * @package filter
- * @author  Frederic Guillot
+ * @author  Kamil Ściana
  */
-class TaskSwimlaneFilter extends BaseFilter implements FilterInterface
+class TaskCompletionDateRangeFilter extends BaseDateRangeFilter implements FilterInterface
 {
     /**
      * Get search attribute
@@ -23,7 +21,7 @@ class TaskSwimlaneFilter extends BaseFilter implements FilterInterface
      */
     public function getAttributes()
     {
-        return array('swimlane');
+        return array('completedRange');
     }
 
     /**
@@ -34,7 +32,7 @@ class TaskSwimlaneFilter extends BaseFilter implements FilterInterface
      */
     public function apply()
     {
-        $this->query->ilike(SwimlaneModel::TABLE.'.name', $this->value);
+        $this->applyDateFilter(TaskModel::TABLE.'.date_completed');
         return $this;
     }
 }
